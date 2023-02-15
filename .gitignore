@@ -1,0 +1,17 @@
+
+build/
+bin/
+obj/
+ListSmarter/build/
+ListSmarter/bin/
+ListSmarter/obj/
+
+ListSmarter.ConsoleUI/build/
+ListSmarter.ConsoleUI/bin/
+ListSmarter.ConsoleUI/obj/
+
+# NuGet
+packages/
+*.nupkg
+*.pckg
+.vs/
