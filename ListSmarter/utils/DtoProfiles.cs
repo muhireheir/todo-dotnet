@@ -15,6 +15,8 @@ namespace ListSmarter
             CreateMap<PersonDto,Person>();
             CreateMap<BucketDto,Bucket>();
             CreateMap<Bucket,BucketDto>();
+            CreateMap<Models.Task, TaskDto>();
+            CreateMap<TaskDto,Models.Task>();
         }
         
     }

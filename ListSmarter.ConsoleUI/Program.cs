@@ -10,8 +10,7 @@ namespace ListSmarter.ConsoleUI{
 
 
     class Program{
-
-
+        
         static void Main(){
             var serviceProvider = CreateServiceProvider();
             var personService = serviceProvider.GetService<IPersonService>();
@@ -28,18 +27,15 @@ namespace ListSmarter.ConsoleUI{
 
             services.AddSingleton<IPersonRepository, PersonRepository>();
             services.AddSingleton<IBucketRepository, BucketRepository>();
-
+            services.AddSingleton<ITaskRepository, TaskRepository>();
             // services registration
             services.AddSingleton<IPersonService,PersonService>();
             services.AddSingleton<IBucketService,BucketService>();
-
+            services.AddSingleton<ITaskService,TaskService>();
             // ADD VALIDATORS
             services.AddSingleton<IValidator<PersonDto>,PersonValidator>();
             // END OF VALIDATORS Registration
-
             services.AddAutoMapper(typeof(DtoProfiles));
-
-
             return services.BuildServiceProvider();
         }
 

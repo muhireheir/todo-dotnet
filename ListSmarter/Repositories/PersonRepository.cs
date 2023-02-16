@@ -15,10 +15,13 @@ namespace ListSmarter.Repositories
             _mapper = mapper;
         }
         
-        private List<Person> people = new List<Person>{
+        public List<Person> people = new List<Person>{
             new Person {Id=1,FirstName="Heritier",LastName="UMUHIRE"},
             new Person {Id=2,FirstName="Lenny",LastName="Pascal"},
         };
+
+
+        
 
         public List<PersonDto> getAll()
         {
@@ -40,5 +43,11 @@ namespace ListSmarter.Repositories
             currentData.FirstName=data.FirstName;
             currentData.LastName = data.LastName;
         }
+
+       public  List<Person> GetPeople()
+        {
+            return people;
+        }
+
     }
 }
