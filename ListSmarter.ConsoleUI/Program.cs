@@ -5,6 +5,7 @@ using AutoMapper;
 using ListSmarter.Repositories;
 using FluentValidation;
 using ListSmarter.validators;
+using ListSmarter.Dtos;
 namespace ListSmarter.ConsoleUI{
 
 
@@ -14,22 +15,36 @@ namespace ListSmarter.ConsoleUI{
         static void Main(){
             var serviceProvider = CreateServiceProvider();
             var personService = serviceProvider.GetService<IPersonService>();
+            var bucketService = serviceProvider.GetService<IBucketService>();
             var personController = new PersonController(personService ?? throw new Exception("Failed to resolve IPersonService from the service provider."));
-            ShowMenu(personController);
+            var bucketController = new BucketController(bucketService ?? throw new Exception("Failed to resolve IBucketService from the service provider."));
+            ShowMenu(personController,bucketController);
             
             
         }
         static IServiceProvider CreateServiceProvider(){
             var services = new ServiceCollection();
+            // Repository registation
+
             services.AddSingleton<IPersonRepository, PersonRepository>();
+            services.AddSingleton<IBucketRepository, BucketRepository>();
+
+            // services registration
             services.AddSingleton<IPersonService,PersonService>();
+            services.AddSingleton<IBucketService,BucketService>();
+
+            // ADD VALIDATORS
             services.AddSingleton<IValidator<PersonDto>,PersonValidator>();
+            // END OF VALIDATORS Registration
+
             services.AddAutoMapper(typeof(DtoProfiles));
+
+
             return services.BuildServiceProvider();
         }
 
 
-        public static void ShowMenu(PersonController personController){
+        public static void ShowMenu(PersonController personController,BucketController bc){
             while(true){
                 Console.Clear();
                 Console.WriteLine("ListSmarter Console Menu");
@@ -61,6 +76,16 @@ namespace ListSmarter.ConsoleUI{
                         Console.ReadKey();
                         
                     break;
+
+                    case "2":
+                        Console.WriteLine("+" + new string('-', 2 * 8) + "+");
+                        bc.GetBuckets().ForEach(bucket=>{
+                        Console.WriteLine("| "+bucket.Id+" | "+bucket.Title+" |");
+                        Console.WriteLine("+" + new string('-', 2 * 8) + "+");
+                        });
+                        Console.ReadKey();
+                    break;
+
                     case "4":
                         Console.WriteLine("Enter firstname and Last name");
                         int UsersCount = personController.getAllPeople().Count;
@@ -83,6 +108,29 @@ namespace ListSmarter.ConsoleUI{
                         int Id = Int32.Parse(input);
                         personController.DeletePerson(Id);
                     break;
+                    case "7":
+                        Console.WriteLine("Enter bucket title");
+                        var bucketTitle= Console.ReadLine();
+                        int bucketsCounts = bc.GetBuckets().Count;
+                        bc.CreateBucket(new BucketDto{Id=bucketsCounts+1,Title=bucketTitle});
+                        Console.WriteLine("Bucket created");
+                    break;
+
+                    case "8":
+                        Console.WriteLine("Enter bucket id");
+                        var bucketInput= Console.ReadLine();
+                        int bucketId2 = Int32.Parse(bucketInput);
+                        Console.WriteLine("Enter new bucket title");
+                        bc.UpdateBucket(bucketId2,new BucketDto{Title=Console.ReadLine()});
+                        Console.WriteLine("Bucket created");
+                    break;
+
+                     case "9":
+                        Console.WriteLine("Enter bucket Id");
+                        int bucketId = Int32.Parse(Console.ReadLine());
+                        bc.DeleteBucket(bucketId);
+                    break;
+
                     default:
                         Console.WriteLine("Invalid choice. Press any key to continue...");
                         Console.ReadKey();
