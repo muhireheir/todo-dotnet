@@ -18,6 +18,16 @@ namespace ListSmarter
         public List<PersonDto> getAllPeople(){
             return _personService.getAllPeople();
         }
+        public void createPeople(PersonDto person){
+            _personService.addPerson(person);
+        }
 
+        public void DeletePerson(int id){
+                _personService.DeletePerson(id);
+        }
+
+        public void UpdatePerson(int id,PersonDto data){
+            _personService.EditPerson(id,data);
+        }
     }
 }

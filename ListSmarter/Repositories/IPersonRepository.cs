@@ -8,6 +8,9 @@ namespace ListSmarter.Repositories
     public interface IPersonRepository
     {
         List<PersonDto> getAll();
+        void create(PersonDto person);
+        void delete(int id);
+        void update(int id,PersonDto data);
         
     }
 }

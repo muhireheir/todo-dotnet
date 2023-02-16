@@ -8,5 +8,11 @@ namespace ListSmarter.Services
     public interface IPersonService
     {
         List<PersonDto> getAllPeople();
+
+        void addPerson(PersonDto person);
+        void DeletePerson(int id);
+        void EditPerson(int id,PersonDto data);
     }
+
+
 }

@@ -25,5 +25,20 @@ namespace ListSmarter.Repositories
             
             return _mapper.Map<List<PersonDto>>(people);
         }
+        public void create(PersonDto person)
+        {
+            people.Add(_mapper.Map<Person>(person));
+        }
+        public void delete(int id){
+            List<Person> list  = people.Where(person=>person.Id!=id).ToList();
+            people.Clear();
+            people.AddRange(list);
+        }
+
+        public void update(int id,PersonDto data){
+            Person currentData = people.First(person=>person.Id==id);
+            currentData.FirstName=data.FirstName;
+            currentData.LastName = data.LastName;
+        }
     }
 }
