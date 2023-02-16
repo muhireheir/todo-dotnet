@@ -11,6 +11,7 @@ namespace ListSmarter
 
         public DtoProfiles(){
             CreateMap<Person,PersonDto>();
+            CreateMap<PersonDto,Person>();
         }
         
     }
