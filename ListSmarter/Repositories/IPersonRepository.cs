@@ -12,6 +12,9 @@ namespace ListSmarter.Repositories
         void create(PersonDto person);
         void delete(int id);
         void update(int id,PersonDto data);
+
+        Person GetPerson(int id);
+    
         
     }
 }

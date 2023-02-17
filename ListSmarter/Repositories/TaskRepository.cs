@@ -26,18 +26,24 @@ namespace ListSmarter.Repositories
         List<Models.Task> Tasks = new List<Models.Task>{
             new Models.Task{Id=1,
             Title="First Task",
-            Description="This id task 1 description",
+            Description="Descrption",
             Status=TaskEnum.Open
             }
         };
         public void CreateTask(TaskDto task)
         {
-            throw new NotImplementedException();
+            Models.Task newTask = _mapper.Map<Models.Task>(task);
+            Tasks.Add(newTask);
         }
 
         public List<TaskDto> GetAll()
         {
-            throw new NotImplementedException();
+           return  _mapper.Map<List<TaskDto>>(Tasks);
+        }
+        public void AssignToPerson(int taskId, Person person)
+        {
+            Models.Task task = Tasks.First(task=>task.Id==taskId);
+            task.Assignee=person;
         }
     }
 }

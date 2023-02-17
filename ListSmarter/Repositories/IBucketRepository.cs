@@ -15,5 +15,7 @@ namespace ListSmarter.Repositories
         void Update(int id,BucketDto data);
         void Delete(int id);
         
+        Bucket GetOne(int id);
+        
     }
 }

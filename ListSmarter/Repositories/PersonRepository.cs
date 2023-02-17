@@ -49,5 +49,10 @@ namespace ListSmarter.Repositories
             return people;
         }
 
+        public Person GetPerson(int id){
+            return people.First(person=>person.Id==id);
+        }
+
+
     }
 }

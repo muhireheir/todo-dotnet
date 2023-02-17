@@ -15,9 +15,12 @@ namespace ListSmarter.ConsoleUI{
             var serviceProvider = CreateServiceProvider();
             var personService = serviceProvider.GetService<IPersonService>();
             var bucketService = serviceProvider.GetService<IBucketService>();
+            var taskService = serviceProvider.GetService<ITaskService>();
             var personController = new PersonController(personService ?? throw new Exception("Failed to resolve IPersonService from the service provider."));
             var bucketController = new BucketController(bucketService ?? throw new Exception("Failed to resolve IBucketService from the service provider."));
-            ShowMenu(personController,bucketController);
+            var taskController = new TaskController(taskService ?? throw new Exception("Task cons") );
+            ShowMenu(personController,bucketController,taskController);
+
             
             
         }
@@ -34,13 +37,15 @@ namespace ListSmarter.ConsoleUI{
             services.AddSingleton<ITaskService,TaskService>();
             // ADD VALIDATORS
             services.AddSingleton<IValidator<PersonDto>,PersonValidator>();
+            services.AddSingleton<IValidator<TaskDto>,TaskValidator>();
+
             // END OF VALIDATORS Registration
             services.AddAutoMapper(typeof(DtoProfiles));
             return services.BuildServiceProvider();
         }
 
 
-        public static void ShowMenu(PersonController personController,BucketController bc){
+        public static void ShowMenu(PersonController personController,BucketController bc,TaskController tc){
             while(true){
                 Console.Clear();
                 Console.WriteLine("ListSmarter Console Menu");
@@ -57,6 +62,7 @@ namespace ListSmarter.ConsoleUI{
                 Console.WriteLine("11. Edit task");
                 Console.WriteLine("12. Update task status");
                 Console.WriteLine("13. Delete task");
+                Console.WriteLine("14. Assign task to person");
                 Console.WriteLine("0. Exit");
                 Console.Write("\n\nEnter your choice: ");
 
@@ -78,6 +84,15 @@ namespace ListSmarter.ConsoleUI{
                         bc.GetBuckets().ForEach(bucket=>{
                         Console.WriteLine("| "+bucket.Id+" | "+bucket.Title+" |");
                         Console.WriteLine("+" + new string('-', 2 * 8) + "+");
+                        });
+                        Console.ReadKey();
+                    break;
+
+                    case "3":
+                        Console.WriteLine("+" + new string('-', 5 * 10) + "+");
+                        tc.GetAllTasks().ForEach(tsk=>{
+                        Console.WriteLine("| "+tsk.Id+" | "+tsk.Title+" | "+tsk.Description+" | "+tsk.Bucket?.Title+" | "+tsk.Status +" | "+tsk.Assignee?.FirstName+" |");
+                        Console.WriteLine("+" + new string('-', 5 * 8) + "+");
                         });
                         Console.ReadKey();
                     break;
@@ -125,6 +140,28 @@ namespace ListSmarter.ConsoleUI{
                         Console.WriteLine("Enter bucket Id");
                         int bucketId = Int32.Parse(Console.ReadLine());
                         bc.DeleteBucket(bucketId);
+                    break;
+                    case "10":
+                    Console.WriteLine("Enter task title");
+                        var taskTitle = Console.ReadLine();
+                        Console.WriteLine("Enter task Description");
+                        var taskDescription = Console.ReadLine();
+                        Console.WriteLine("Enter bucket Id");
+                        var bucketRefInput = Console.ReadLine();
+                        int bucketIdRef = Int32.Parse(bucketRefInput);
+                        tc.createNewTask(new TaskDto {Id=tc.GetAllTasks().Count+1,Title=taskTitle,Description=taskDescription},bucketIdRef);
+                        Console.ReadKey();
+                    break;
+
+                    case "14":
+                    Console.WriteLine("Enter task id");
+                    var taskInput = Console.ReadLine();
+                    int taskIdRef = Int32.Parse(taskInput);
+                    Console.WriteLine("Enter person Id");
+                    var personInput = Console.ReadLine();
+                    int personIdRef= Int32.Parse(personInput);
+                    tc.AssignToPerson(taskIdRef,personIdRef);
+                    Console.ReadKey();
                     break;
 
                     default:
