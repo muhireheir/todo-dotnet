@@ -42,5 +42,11 @@ namespace ListSmarter.Repositories
             Buckets.Clear();
             Buckets.AddRange(buckets);
         }
+
+        public Bucket GetOne(int id)
+        {
+            Bucket bucket =  Buckets.Where(bucket=>bucket.Id==id).FirstOrDefault();
+            return bucket;
+        }
     }
 }

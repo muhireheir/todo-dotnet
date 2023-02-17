@@ -10,11 +10,11 @@ namespace ListSmarter.Dtos
 {
     public class TaskDto
     {
-        int Id {get;set;}
-        string? Title{get;set;}
-        string? Description {get;set;}
-        TaskEnum Status {get;set;}
-        Person? Assignee {get;set;}
-        Bucket? Bucket {get;set;}
+        public int Id {get;set;}
+        public string? Title{get;set;}
+        public string? Description {get;set;}
+        public TaskEnum Status {get;set;}
+        public Person? Assignee {get;set;}
+        public Bucket? Bucket {get;set;}
     }
 }

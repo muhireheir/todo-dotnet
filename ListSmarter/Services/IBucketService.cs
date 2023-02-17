@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ListSmarter.Dtos;
+using ListSmarter.Models;
 
 namespace ListSmarter.Services
 {
@@ -12,5 +13,6 @@ namespace ListSmarter.Services
         void CreateBucket(BucketDto bucket);
         void DeleteBucket(int id);
         void EditBucket(int id,BucketDto data);
+        Bucket getOne(int id);
     }
 }

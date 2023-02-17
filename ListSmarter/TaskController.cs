@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ListSmarter.Services;
+using ListSmarter.Dtos;
+using ListSmarter.Models;
+using ListSmarter.Enums;
+using AutoMapper;
+
+
 
 namespace ListSmarter
 {
@@ -12,5 +18,15 @@ namespace ListSmarter
         public TaskController(ITaskService taskService){
                 _taskService=taskService;
         }
+
+
+        public List<TaskDto>GetAllTasks(){
+            return _taskService.getTasks();
+        }
+
+        public void createNewTask(TaskDto task,int bucketId){
+            _taskService.addTask(task,bucketId);
+        }
+
     }
 }
