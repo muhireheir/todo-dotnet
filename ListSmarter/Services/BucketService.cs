@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ListSmarter.Dtos;
 using ListSmarter.Repositories;
+using ListSmarter.Models;
 namespace ListSmarter.Services
 {
     public class BucketService : IBucketService
@@ -32,6 +33,11 @@ namespace ListSmarter.Services
         public List<BucketDto> getAll()
         {
             return _bucketRepository.GetAll();
+        }
+
+        public Bucket getOne(int id)
+        {
+           return  _bucketRepository.GetOne(id);
         }
     }
 }
