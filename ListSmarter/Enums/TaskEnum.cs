@@ -2,9 +2,9 @@ namespace ListSmarter.Enums
 {
     public enum TaskEnum
     {
-        Open,
-        InProgress,
-        Closed
+        Open=1,
+        InProgress=2,
+        Closed=3
 
     }
 }

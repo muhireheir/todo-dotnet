@@ -20,10 +20,27 @@ namespace ListSmarter
         }
 
         public void CreateBucket(BucketDto bucket){
-                _bucketService.CreateBucket(bucket);
+                try
+                {
+                    _bucketService.CreateBucket(bucket);
+                }
+                catch (System.Exception E)
+                {
+                    Console.WriteLine(E.Message);
+                    Console.ReadKey();
+                }
         }   
         public void DeleteBucket(int id){
-            _bucketService.DeleteBucket(id);
+            try
+            {
+                _bucketService.DeleteBucket(id);
+            }
+            catch (System.Exception E)
+            {
+
+                Console.WriteLine(E.Message);
+                Console.ReadKey();
+            }
         }
 
          public void UpdateBucket(int id,BucketDto data){

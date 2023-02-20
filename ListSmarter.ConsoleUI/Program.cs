@@ -36,8 +36,8 @@ namespace ListSmarter.ConsoleUI{
             services.AddSingleton<IBucketService,BucketService>();
             services.AddSingleton<ITaskService,TaskService>();
             // ADD VALIDATORS
-            services.AddSingleton<IValidator<PersonDto>,PersonValidator>();
-            services.AddSingleton<IValidator<TaskDto>,TaskValidator>();
+            services.AddTransient<IValidator<PersonDto>,PersonValidator>();
+            services.AddTransient<IValidator<TaskDto>,TaskValidator>();
 
             // END OF VALIDATORS Registration
             services.AddAutoMapper(typeof(DtoProfiles));
@@ -59,10 +59,11 @@ namespace ListSmarter.ConsoleUI{
                 Console.WriteLine("8. Edit bucket");
                 Console.WriteLine("9. Delete bucket");
                 Console.WriteLine("10. Create new task");
-                Console.WriteLine("11. Edit task");
+                // Console.WriteLine("11. Edit task");
                 Console.WriteLine("12. Update task status");
-                Console.WriteLine("13. Delete task");
+                // Console.WriteLine("13. Delete task");
                 Console.WriteLine("14. Assign task to person");
+                Console.WriteLine("15. Assign task to bucket");
                 Console.WriteLine("0. Exit");
                 Console.Write("\n\nEnter your choice: ");
 
@@ -153,6 +154,15 @@ namespace ListSmarter.ConsoleUI{
                         Console.ReadKey();
                     break;
 
+                    case "12":
+                    Console.WriteLine("Enter task Id");
+                    var taskIdInput = Console.ReadLine();
+                    Console.WriteLine("Select task status :\n 1.Open \t 2.InProgress \t 3.CLosed");
+                    var statusOptionInput = Console.ReadLine();
+                    var intTaskId = Int32.Parse(taskIdInput);
+                    tc.changeStatus(intTaskId,statusOptionInput);
+
+                    break;
                     case "14":
                     Console.WriteLine("Enter task id");
                     var taskInput = Console.ReadLine();
@@ -162,6 +172,16 @@ namespace ListSmarter.ConsoleUI{
                     int personIdRef= Int32.Parse(personInput);
                     tc.AssignToPerson(taskIdRef,personIdRef);
                     Console.ReadKey();
+                    break;
+
+                    case "15":
+                    Console.WriteLine("Enter task Id");
+                    var taskAinput = Console.ReadLine();
+                    var taskAref = Int32.Parse(taskAinput);
+                    Console.WriteLine("Enter Bucket Id");
+                    var bucketAinput = Console.ReadLine();
+                    var bucketAref = Int32.Parse(bucketAinput);
+                    tc.AssignToBucket(taskAref,bucketAref);
                     break;
 
                     default:
