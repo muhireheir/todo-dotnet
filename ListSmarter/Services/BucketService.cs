@@ -11,18 +11,30 @@ namespace ListSmarter.Services
     {
 
         public IBucketRepository _bucketRepository;
+        public ITaskRepository _taskRepository;
 
-        public BucketService(IBucketRepository repository){
+        public BucketService(IBucketRepository repository,ITaskRepository taskRepository){
             _bucketRepository=repository;
+            _taskRepository=taskRepository;
         }
         public void CreateBucket(BucketDto bucket)
         {
+            List<BucketDto> buckets = _bucketRepository.GetAll();
+            if(buckets.Count>=10){
+                throw new Exception("Opps! the bucket is Full");
+            }
             _bucketRepository.Create(bucket);
         }
 
         public void DeleteBucket(int id)
         {
-            _bucketRepository.Delete(id);
+            List<Models.Task> taskCount = _taskRepository.GetBucketTasks(id); 
+            if(taskCount.Count>0){
+                throw new Exception("Only empty buckets can be deleted");
+            }else{
+                _bucketRepository.Delete(id);
+            }
+            
         }
 
         public void EditBucket(int id, BucketDto data)
@@ -39,5 +51,7 @@ namespace ListSmarter.Services
         {
            return  _bucketRepository.GetOne(id);
         }
+
+       
     }
 }

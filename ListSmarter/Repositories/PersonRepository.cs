@@ -4,53 +4,73 @@ using System.Linq;
 using System.Threading.Tasks;
 using ListSmarter.Models;
 using AutoMapper;
+using System.ComponentModel.DataAnnotations;
 
 namespace ListSmarter.Repositories
 {
-    public class PersonRepository :IPersonRepository
+    public class PersonRepository : IPersonRepository
 
     {
         private readonly IMapper _mapper;
-        public PersonRepository(IMapper mapper){
+        public PersonRepository(IMapper mapper)
+        {
             _mapper = mapper;
         }
-        
+
         public List<Person> people = new List<Person>{
             new Person {Id=1,FirstName="Heritier",LastName="UMUHIRE"},
             new Person {Id=2,FirstName="Lenny",LastName="Pascal"},
         };
 
 
-        
+
 
         public List<PersonDto> getAll()
         {
-            
+
             return _mapper.Map<List<PersonDto>>(people);
         }
         public void create(PersonDto person)
         {
-            people.Add(_mapper.Map<Person>(person));
+            // people.Add(_mapper.Map<Person>(person));
+            var x = _mapper.Map<Person>(person);
+            var validationResults = new List<ValidationResult>();
+
+            var isValid = Validator.TryValidateObject(x, new ValidationContext(x), validationResults, true);
+
+            if (!isValid)
+            {
+                foreach (var validationResult in validationResults)
+                {
+                    Console.WriteLine(validationResult.ErrorMessage);
+                }
+            }else{
+                Console.WriteLine("ooooooooooooooooooooo");
+            }
+
         }
-        public void delete(int id){
-            List<Person> list  = people.Where(person=>person.Id!=id).ToList();
+        public void delete(int id)
+        {
+            List<Person> list = people.Where(person => person.Id != id).ToList();
             people.Clear();
             people.AddRange(list);
         }
 
-        public void update(int id,PersonDto data){
-            Person currentData = people.First(person=>person.Id==id);
-            currentData.FirstName=data.FirstName;
+        public void update(int id, PersonDto data)
+        {
+            Person currentData = people.First(person => person.Id == id);
+            currentData.FirstName = data.FirstName;
             currentData.LastName = data.LastName;
         }
 
-       public  List<Person> GetPeople()
+        public List<Person> GetPeople()
         {
             return people;
         }
 
-        public Person GetPerson(int id){
-            return people.First(person=>person.Id==id);
+        public Person GetPerson(int id)
+        {
+            return people.First(person => person.Id == id);
         }
 
 

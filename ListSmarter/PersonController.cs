@@ -23,7 +23,15 @@ namespace ListSmarter
         }
 
         public void DeletePerson(int id){
+            try
+            {
                 _personService.DeletePerson(id);
+            }
+            catch (System.Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.ReadKey();
+            }
         }
 
         public void UpdatePerson(int id,PersonDto data){

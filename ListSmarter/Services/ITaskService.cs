@@ -12,5 +12,7 @@ namespace ListSmarter.Services
        void addTask(TaskDto task,int id);
        List<TaskDto> getTasks();
        void AssignToPerson(int task,int person);
+       void AssignToBucket(int taskId, int bucket);
+       void changeStatus(int task,string status);
     }
 }

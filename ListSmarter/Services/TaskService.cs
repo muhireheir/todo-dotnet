@@ -60,5 +60,14 @@ namespace ListSmarter.Services
             _taskRepository.AssignToPerson(taskId,person);
         }
 
+        public void AssignToBucket(int taskId, int bucketId)
+        {
+            Bucket bucket = _bucketRepository.GetOne(bucketId);
+            _taskRepository.AssignToBucket(taskId,bucket);
+        }
+        public void changeStatus(int task,string status){
+            TaskEnum value = (TaskEnum)Enum.Parse(typeof(TaskEnum),status);
+            _taskRepository.updateStatus(task,value);
+        }
     }
 }

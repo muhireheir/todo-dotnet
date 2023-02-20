@@ -45,5 +45,31 @@ namespace ListSmarter.Repositories
             Models.Task task = Tasks.First(task=>task.Id==taskId);
             task.Assignee=person;
         }
+
+
+         public void AssignToBucket(int taskId, Bucket bucket)
+        {
+            Models.Task task = Tasks.First(task=>task.Id==taskId);
+            task.Bucket=bucket;
+        }
+
+       public  List<Models.Task> GetPersonTasks(int id)
+        {
+            return Tasks.Where(task=>task.Assignee?.Id==id).ToList();
+        }
+
+        public List<Models.Task> GetBucketTasks(int id)
+        {
+            return Tasks.Where(task=>task.Bucket?.Id==id).ToList();
+        }
+
+        public void updateStatus(int taskId ,TaskEnum status){
+            Models.Task task = Tasks.First(task=>task.Id==taskId);
+            task.Status=status;
+        }
+
+        
+
+
     }
 }
