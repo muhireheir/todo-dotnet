@@ -48,5 +48,13 @@ namespace ListSmarter.Repositories
             Bucket bucket =  Buckets.Where(bucket=>bucket.Id==id).FirstOrDefault();
             return bucket;
         }
+
+        public Bucket GetByTitle(string title)
+        {
+            Bucket bucket =  Buckets.Where(bucket=>bucket.Title==title).FirstOrDefault();
+            return bucket;
+        }
+
+        
     }
 }

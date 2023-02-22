@@ -23,6 +23,10 @@ namespace ListSmarter.Services
             if(buckets.Count>=10){
                 throw new Exception("Opps! the bucket is Full");
             }
+           Bucket bucket2= _bucketRepository.GetByTitle(bucket.Title);
+           if(bucket2!=null){
+                throw new Exception("Opps! BUcket name already exists");
+           }
             _bucketRepository.Create(bucket);
         }
 
@@ -51,6 +55,7 @@ namespace ListSmarter.Services
         {
            return  _bucketRepository.GetOne(id);
         }
+        
 
        
     }
