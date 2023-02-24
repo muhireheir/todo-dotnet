@@ -160,7 +160,7 @@ namespace ListSmarter.ConsoleUI{
                     Console.WriteLine("Select task status :\n 1.Open \t 2.InProgress \t 3.CLosed");
                     var statusOptionInput = Console.ReadLine();
                     var intTaskId = Int32.Parse(taskIdInput);
-                    tc.changeStatus(intTaskId,statusOptionInput);
+                    tc.ChangeStatus(intTaskId,statusOptionInput);
 
                     break;
                     case "14":

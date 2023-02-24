@@ -6,6 +6,7 @@ using ListSmarter.Dtos;
 using ListSmarter.Models;
 using ListSmarter.Enums;
 using AutoMapper;
+using ListSmarter.db;
 
 namespace ListSmarter.Repositories
 {
@@ -23,53 +24,48 @@ namespace ListSmarter.Repositories
             _bucketRepository = bucketRepository;
         }
 
-        List<Models.Task> Tasks = new List<Models.Task>{
-            new Models.Task{Id=1,
-            Title="First Task",
-            Description="Descrption",
-            Status=TaskEnum.Open
-            }
-        };
-        public void CreateTask(TaskDto task)
+
+        public TaskDto CreateTask(TaskDto task)
         {
             Models.Task newTask = _mapper.Map<Models.Task>(task);
-            Tasks.Add(newTask);
+            TemporaryDatabase.Tasks.Add(newTask);
+            return task;
         }
 
         public List<TaskDto> GetAll()
         {
-           return  _mapper.Map<List<TaskDto>>(Tasks);
+           return  _mapper.Map<List<TaskDto>>(TemporaryDatabase.Tasks);
         }
-        public void AssignToPerson(int taskId, Person person)
+        public void AssignToPerson(int taskId, int personId)
         {
-            Models.Task task = Tasks.First(task=>task.Id==taskId);
+            Models.Task task = TemporaryDatabase.Tasks.First(task=>task.Id==taskId);
+            Person person =  _personRepository.GetPerson(personId);
             task.Assignee=person;
         }
 
 
-         public void AssignToBucket(int taskId, Bucket bucket)
+         public void AssignToBucket(int taskId, int bucketId)
         {
-            Models.Task task = Tasks.First(task=>task.Id==taskId);
+            Models.Task task = TemporaryDatabase.Tasks.First(task=>task.Id==taskId);
+           Bucket bucket= _bucketRepository.GetOne(bucketId);
             task.Bucket=bucket;
         }
 
        public  List<Models.Task> GetPersonTasks(int id)
         {
-            return Tasks.Where(task=>task.Assignee?.Id==id).ToList();
+            return TemporaryDatabase.Tasks.Where(task=>task.Assignee?.Id==id).ToList();
         }
 
         public List<Models.Task> GetBucketTasks(int id)
         {
-            return Tasks.Where(task=>task.Bucket?.Id==id).ToList();
+            return TemporaryDatabase.Tasks.Where(task=>task.Bucket?.Id==id).ToList();
         }
 
-        public void updateStatus(int taskId ,TaskEnum status){
-            Models.Task task = Tasks.First(task=>task.Id==taskId);
+        public TaskDto UpdateStatus(int taskId ,TaskEnum status){
+            Models.Task task = TemporaryDatabase.Tasks.First(task=>task.Id==taskId);
             task.Status=status;
+            return _mapper.Map<TaskDto>(task);
         }
-
-        
-
 
     }
 }
