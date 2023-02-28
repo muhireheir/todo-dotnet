@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListSmarter", "ListSmarter\ListSmarter.csproj", "{247C9DBE-60D8-49DE-8EBC-D997F86B56B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ListSmarter", "ListSmarter\ListSmarter.csproj", "{247C9DBE-60D8-49DE-8EBC-D997F86B56B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListSmarter.ConsoleUI", "ListSmarter.ConsoleUI\ListSmarter.ConsoleUI.csproj", "{A5C92957-6FFC-4360-AFE1-D5AFF84D4E73}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ListSmarter.ConsoleUI", "ListSmarter.ConsoleUI\ListSmarter.ConsoleUI.csproj", "{A5C92957-6FFC-4360-AFE1-D5AFF84D4E73}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListSmarter.webApi", "ListSmarter.webApi\ListSmarter.webApi.csproj", "{F8AA5945-0512-4AB1-B0A3-8AC92C081A9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{A5C92957-6FFC-4360-AFE1-D5AFF84D4E73}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5C92957-6FFC-4360-AFE1-D5AFF84D4E73}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5C92957-6FFC-4360-AFE1-D5AFF84D4E73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8AA5945-0512-4AB1-B0A3-8AC92C081A9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8AA5945-0512-4AB1-B0A3-8AC92C081A9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8AA5945-0512-4AB1-B0A3-8AC92C081A9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8AA5945-0512-4AB1-B0A3-8AC92C081A9C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

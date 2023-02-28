@@ -15,3 +15,4 @@ packages/
 *.nupkg
 *.pckg
 .vs/
+.fake

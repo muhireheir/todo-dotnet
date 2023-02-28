@@ -9,7 +9,7 @@ namespace ListSmarter.Services
     {
         List<PersonDto> getAllPeople();
 
-        void addPerson(PersonDto person);
+        PersonDto addPerson(PersonDto person);
         void DeletePerson(int id);
         void EditPerson(int id,PersonDto data);
     }

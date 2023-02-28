@@ -28,7 +28,7 @@ namespace ListSmarter.Services
             return _personRepository.GetAll();
         }
 
-        public void addPerson(PersonDto person){
+        public PersonDto addPerson(PersonDto person){
             var validationResults = new List<ValidationResult>();
             var x = _mapper.Map<Person>(person);
             var isValid = Validator.TryValidateObject(x, new ValidationContext(x), validationResults, true);
@@ -37,6 +37,7 @@ namespace ListSmarter.Services
                 throw new Exception("All fields are required");
             }
             _personRepository.Create(person);
+            return person;
         }
         public void DeletePerson(int id)
         {
