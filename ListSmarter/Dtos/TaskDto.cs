@@ -14,7 +14,7 @@ namespace ListSmarter.Dtos
         public string? Title{get;set;}
         public string? Description {get;set;}
         public TaskEnum Status {get;set;}
-        public Person? Assignee {get;set;}
-        public Bucket? Bucket {get;set;}
+        public PersonDto? Assignee {get;set;}
+        public BucketDto? Bucket {get;set;}
     }
 }

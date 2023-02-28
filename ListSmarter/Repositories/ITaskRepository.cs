@@ -10,12 +10,12 @@ namespace ListSmarter.Repositories
     public interface ITaskRepository
     {
         List<TaskDto>GetAll();
-        void CreateTask(TaskDto task);
-        void AssignToPerson(int taskId,Person person);
+        TaskDto CreateTask(TaskDto task);
+        void AssignToPerson(int taskId,int person);
         List<Models.Task>GetPersonTasks(int id);
         List<Models.Task>GetBucketTasks(int id);
-         void AssignToBucket(int taskId, Bucket bucket);
-         void updateStatus(int task,TaskEnum status);
+        void AssignToBucket(int taskId, int bucket);
+        TaskDto UpdateStatus(int task,TaskEnum status);
     }
 }
 

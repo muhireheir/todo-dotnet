@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ListSmarter.Models;
 using AutoMapper;
 using System.ComponentModel.DataAnnotations;
+using ListSmarter.db;
 
 namespace ListSmarter.Repositories
 {
@@ -17,60 +18,40 @@ namespace ListSmarter.Repositories
             _mapper = mapper;
         }
 
-        public List<Person> people = new List<Person>{
-            new Person {Id=1,FirstName="Heritier",LastName="UMUHIRE"},
-            new Person {Id=2,FirstName="Lenny",LastName="Pascal"},
-        };
 
-
-
-
-        public List<PersonDto> getAll()
+        public List<PersonDto> GetAll()
         {
 
-            return _mapper.Map<List<PersonDto>>(people);
+            return _mapper.Map<List<PersonDto>>(TemporaryDatabase.People);
         }
-        public void create(PersonDto person)
+        public PersonDto Create(PersonDto person)
         {
-            // people.Add(_mapper.Map<Person>(person));
-            var x = _mapper.Map<Person>(person);
-            var validationResults = new List<ValidationResult>();
-
-            var isValid = Validator.TryValidateObject(x, new ValidationContext(x), validationResults, true);
-
-            if (!isValid)
-            {
-                foreach (var validationResult in validationResults)
-                {
-                    Console.WriteLine(validationResult.ErrorMessage);
-                }
-            }else{
-                Console.WriteLine("ooooooooooooooooooooo");
-            }
-
+            TemporaryDatabase.People.Add(_mapper.Map<Person>(person));
+            return person;
         }
-        public void delete(int id)
+        public void Delete(int id)
         {
-            List<Person> list = people.Where(person => person.Id != id).ToList();
-            people.Clear();
-            people.AddRange(list);
+            Person PersonToremove = TemporaryDatabase.People.First(person => person.Id != id);
+            TemporaryDatabase.People.Remove(PersonToremove);
         }
 
-        public void update(int id, PersonDto data)
+        public PersonDto Update(int id, PersonDto data)
         {
-            Person currentData = people.First(person => person.Id == id);
+            Person currentData = TemporaryDatabase.People.First(person => person.Id == id);
             currentData.FirstName = data.FirstName;
             currentData.LastName = data.LastName;
+           return  _mapper.Map<PersonDto>(currentData);
+
         }
 
         public List<Person> GetPeople()
         {
-            return people;
+            return TemporaryDatabase.People;
         }
 
         public Person GetPerson(int id)
         {
-            return people.First(person => person.Id == id);
+            return TemporaryDatabase.People.First(person => person.Id == id);
         }
 
 

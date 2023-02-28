@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ListSmarter.Models;
 using ListSmarter.Dtos;
 using AutoMapper;
+using ListSmarter.db;
 
 namespace ListSmarter.Repositories
 {
@@ -15,43 +16,40 @@ namespace ListSmarter.Repositories
        public BucketRepository(IMapper mapper){
             _mapper=mapper;
         }
-        List<Bucket> Buckets = new List<Bucket>{
-            new Bucket{Id=1,Title="Home Task"},
-            new Bucket{Id=2,Title="School Task"}
-        };
-        
+
         public List<BucketDto> GetAll(){
-            return _mapper.Map<List<BucketDto>>(Buckets);
+            return _mapper.Map<List<BucketDto>>(TemporaryDatabase.Buckets);
         }
 
-        public void Create(BucketDto dto)
+        public BucketDto Create(BucketDto dto)
         {
             Bucket newBucket = _mapper.Map<Bucket>(dto);
-            Buckets.Add(newBucket);
+            TemporaryDatabase.Buckets.Add(newBucket);
+            return dto;
         }
 
-        public void Update(int id, BucketDto data)
+        public BucketDto Update(int id, BucketDto data)
         {
-           Bucket bucket = Buckets.First(bucket=>bucket.Id==id);
+           Bucket bucket = TemporaryDatabase.Buckets.First(bucket=>bucket.Id==id);
            bucket.Title=data.Title;
+           return  _mapper.Map<BucketDto>(bucket);
             
         }
         public void Delete(int id)
         {
-            List<Bucket> buckets  = Buckets.Where(bucket=>bucket.Id!=id).ToList();
-            Buckets.Clear();
-            Buckets.AddRange(buckets);
+            Bucket BucketToRemove  = TemporaryDatabase.Buckets.First(bucket=>bucket.Id!=id);
+            TemporaryDatabase.Buckets.Remove(BucketToRemove);
         }
 
         public Bucket GetOne(int id)
         {
-            Bucket bucket =  Buckets.Where(bucket=>bucket.Id==id).FirstOrDefault();
+            Bucket bucket =  TemporaryDatabase.Buckets.First(bucket=>bucket.Id==id);
             return bucket;
         }
 
         public Bucket GetByTitle(string title)
         {
-            Bucket bucket =  Buckets.Where(bucket=>bucket.Title==title).FirstOrDefault();
+            Bucket bucket =  TemporaryDatabase.Buckets.First(bucket=>bucket.Title==title);
             return bucket;
         }
 

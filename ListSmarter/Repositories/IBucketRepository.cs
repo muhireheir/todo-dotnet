@@ -11,8 +11,8 @@ namespace ListSmarter.Repositories
     {
 
         List<BucketDto> GetAll();
-        void Create(BucketDto dto);
-        void Update(int id,BucketDto data);
+        BucketDto Create(BucketDto dto);
+        BucketDto Update(int id,BucketDto data);
         void Delete(int id);
         
         Bucket GetOne(int id);

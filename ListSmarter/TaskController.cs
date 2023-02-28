@@ -21,11 +21,11 @@ namespace ListSmarter
 
 
         public List<TaskDto>GetAllTasks(){
-            return _taskService.getTasks();
+            return _taskService.GetTasks();
         }
 
         public void createNewTask(TaskDto task,int bucketId){
-            _taskService.addTask(task,bucketId);
+            _taskService.AddTask(task,bucketId);
         }
 
         public void AssignToPerson(int task,int person){
@@ -36,8 +36,8 @@ namespace ListSmarter
             _taskService.AssignToBucket(task,bucket);
         }
 
-         public void changeStatus(int task,string status){
-            _taskService.changeStatus(task,status);
+         public void ChangeStatus(int task,string status){
+            _taskService.ChangeStatus(task,status);
          }
 
     }

@@ -1,3 +1,3 @@
 #bash
 
-dotnet run --project ListSmarter.ConsoleUI
+dotnet run --project ListSmarter.webApi
