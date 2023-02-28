@@ -6,10 +6,10 @@ using FluentValidation;
 
 namespace ListSmarter.validators
 {
-    public class PersonValidator:AbstractValidator<PersonDto>
+    public class CreatePersonValidator:AbstractValidator<CreatePersonDto>
     {
 
-        public PersonValidator(){
+        public CreatePersonValidator(){
             RuleFor(person=>person.FirstName).NotNull().NotEmpty();
             RuleFor(person=>person.LastName).NotNull().NotEmpty();
         }

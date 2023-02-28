@@ -49,7 +49,7 @@ namespace ListSmarter.Repositories
 
         public Bucket GetByTitle(string title)
         {
-            Bucket bucket =  TemporaryDatabase.Buckets.First(bucket=>bucket.Title==title);
+            Bucket bucket =  TemporaryDatabase.Buckets.FirstOrDefault(bucket=>bucket.Title==title);
             return bucket;
         }
 

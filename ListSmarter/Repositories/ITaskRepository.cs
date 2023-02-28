@@ -13,9 +13,10 @@ namespace ListSmarter.Repositories
         TaskDto CreateTask(TaskDto task);
         void AssignToPerson(int taskId,int person);
         List<Models.Task>GetPersonTasks(int id);
-        List<Models.Task>GetBucketTasks(int id);
+        List<TaskDto>GetBucketTasks(int id);
         void AssignToBucket(int taskId, int bucket);
         TaskDto UpdateStatus(int task,TaskEnum status);
+        void DeleteTask(int TaskId);
     }
 }
 

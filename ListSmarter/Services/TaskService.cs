@@ -23,32 +23,27 @@ namespace ListSmarter.Services
             _bucketRepository=bucketRepository;
             _personRepository=personRepository;
             _mapper=mapper;
-
         }
 
-        public void AddTask(TaskDto task,int bucketId)
+        public TaskDto AddTask(TaskDto task, int bucketId)
         {
-
-            Bucket bucket = _bucketRepository.GetOne(bucketId);
-
-            if(bucket!=null){
-                TaskDto newTask = new TaskDto {Id=task.Id,
-                Title=task.Title,
-                Description=task.Description,
-                Status=TaskEnum.Open,
-                Bucket= _mapper.Map<BucketDto>(bucket)
+            try
+            {
+                Bucket bucket = _bucketRepository.GetOne(bucketId);
+                TaskDto newTask = new TaskDto
+                {
+                    Id = task.Id,
+                    Title = task.Title,
+                    Description = task.Description,
+                    Status = TaskEnum.Open,
+                    Bucket = _mapper.Map<BucketDto>(bucket)
                 };
-
-            var results = _taskValidator.Validate(newTask);
-            if(results.IsValid){
-                _taskRepository.CreateTask(newTask);
-            }else{
-                Console.WriteLine(results);
+                return _taskRepository.CreateTask(newTask);
             }
-
-            }else{
-                Console.WriteLine("Invalid bucket Id");
-            }            
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public List<TaskDto> GetTasks()
@@ -65,9 +60,18 @@ namespace ListSmarter.Services
         {
             _taskRepository.AssignToBucket(taskId,bucketId);
         }
-        public void ChangeStatus(int task,string status){
-            TaskEnum value = (TaskEnum)Enum.Parse(typeof(TaskEnum),status);
-            _taskRepository.UpdateStatus(task,value);
+        public TaskDto ChangeStatus(int task,TaskEnum status){
+    
+            return _taskRepository.UpdateStatus(task,status);
+        }
+
+        public List<TaskDto> GetBucketTasks(int id){
+            return _taskRepository.GetBucketTasks(id);
+        }
+
+        public void DeleteTask(int taskId){
+            _taskRepository.DeleteTask(taskId);
         }
     }
 }
+

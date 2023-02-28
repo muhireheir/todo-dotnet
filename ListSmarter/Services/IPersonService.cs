@@ -11,7 +11,9 @@ namespace ListSmarter.Services
 
         PersonDto addPerson(PersonDto person);
         void DeletePerson(int id);
-        void EditPerson(int id,PersonDto data);
+        PersonDto EditPerson(int id,PersonDto data);
+        
+        PersonDto GetOne(int id);
     }
 
 

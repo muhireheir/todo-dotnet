@@ -10,6 +10,11 @@ ListSmarter.ConsoleUI/build/
 ListSmarter.ConsoleUI/bin/
 ListSmarter.ConsoleUI/obj/
 
+
+ListSmarter.api/build
+ListSmarter.api/bin
+ListSmarter.api/obj
+
 # NuGet
 packages/
 *.nupkg

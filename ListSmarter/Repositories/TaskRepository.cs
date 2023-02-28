@@ -56,15 +56,21 @@ namespace ListSmarter.Repositories
             return TemporaryDatabase.Tasks.Where(task=>task.Assignee?.Id==id).ToList();
         }
 
-        public List<Models.Task> GetBucketTasks(int id)
+        public List<TaskDto> GetBucketTasks(int id)
         {
-            return TemporaryDatabase.Tasks.Where(task=>task.Bucket?.Id==id).ToList();
+            var tasks = TemporaryDatabase.Tasks.Where(task=>task.Bucket?.Id==id).ToList();
+            return _mapper.Map<List<TaskDto>>(tasks);
         }
 
         public TaskDto UpdateStatus(int taskId ,TaskEnum status){
             Models.Task task = TemporaryDatabase.Tasks.First(task=>task.Id==taskId);
             task.Status=status;
             return _mapper.Map<TaskDto>(task);
+        }
+
+        public void DeleteTask(int TaskId){
+            Models.Task task = TemporaryDatabase.Tasks.First(task=>task.Id==TaskId);
+            TemporaryDatabase.Tasks.Remove(task);
         }
 
     }

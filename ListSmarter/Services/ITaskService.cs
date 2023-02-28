@@ -4,15 +4,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using ListSmarter.Models;
 using ListSmarter.Dtos;
+using ListSmarter.Enums;
 
 namespace ListSmarter.Services
 {
     public interface ITaskService
     {
-       void AddTask(TaskDto task,int id);
+       TaskDto AddTask(TaskDto task,int bucketId);
        List<TaskDto> GetTasks();
        void AssignToPerson(int task,int person);
        void AssignToBucket(int taskId, int bucket);
-       void ChangeStatus(int task,string status);
+       TaskDto ChangeStatus(int task,TaskEnum status);
+       List<TaskDto>GetBucketTasks(int id);
+       void DeleteTask(int taskId);
+
     }
 }

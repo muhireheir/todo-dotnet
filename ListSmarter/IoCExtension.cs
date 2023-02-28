@@ -12,6 +12,7 @@ using ListSmarter.Repositories;
 using FluentValidation;
 using ListSmarter.validators;
 using ListSmarter.Dtos;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ListSmarter
 {
@@ -34,8 +35,10 @@ namespace ListSmarter
 
         public static void RegisterValidators(this IServiceCollection services)
         {
-            services.AddTransient<IValidator<PersonDto>, PersonValidator>();
+            services.AddTransient<IValidator<CreatePersonDto>, CreatePersonValidator>();
             services.AddTransient<IValidator<TaskDto>, TaskValidator>();
+            services.AddTransient<IValidator<CreateTaskDto>, CreateTaskValidator>();
+            services.AddTransient<IValidator<TaskStatusDto>, TaskStatusEditValidator>();
         }
     }
 }

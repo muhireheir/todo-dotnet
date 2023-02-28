@@ -17,7 +17,7 @@ namespace ListSmarter.Services
             _bucketRepository=repository;
             _taskRepository=taskRepository;
         }
-        public void CreateBucket(BucketDto bucket)
+        public BucketDto CreateBucket(BucketDto bucket)
         {
             List<BucketDto> buckets = _bucketRepository.GetAll();
             if(buckets.Count>=10){
@@ -28,11 +28,12 @@ namespace ListSmarter.Services
                 throw new Exception("Opps! BUcket name already exists");
            }
             _bucketRepository.Create(bucket);
+            return bucket;
         }
 
         public void DeleteBucket(int id)
         {
-            List<Models.Task> taskCount = _taskRepository.GetBucketTasks(id); 
+            List<TaskDto> taskCount = _taskRepository.GetBucketTasks(id); 
             if(taskCount.Count>0){
                 throw new Exception("Only empty buckets can be deleted");
             }else{
@@ -41,9 +42,9 @@ namespace ListSmarter.Services
             
         }
 
-        public void EditBucket(int id, BucketDto data)
+        public BucketDto EditBucket(int id, BucketDto data)
         {
-            _bucketRepository.Update(id,data);
+            return _bucketRepository.Update(id,data);
         }
 
         public List<BucketDto> getAll()
