@@ -26,7 +26,9 @@ namespace ListSmarter.Repositories
         }
         public PersonDto Create(PersonDto person)
         {
-            TemporaryDatabase.People.Add(_mapper.Map<Person>(person));
+            Person newPerson = _mapper.Map<Person>(person);
+            newPerson.Id = TemporaryDatabase.People.Any() ? TemporaryDatabase.People.Max(i => i.Id) + 1 : 1;
+            TemporaryDatabase.People.Add(_mapper.Map<Person>(newPerson));
             return person;
         }
         public void Delete(int id)

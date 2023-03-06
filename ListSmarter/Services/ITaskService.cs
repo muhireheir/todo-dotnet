@@ -17,6 +17,7 @@ namespace ListSmarter.Services
        TaskDto ChangeStatus(int task,TaskEnum status);
        List<TaskDto>GetBucketTasks(int id);
        void DeleteTask(int taskId);
+        public  List<Models.Task> GetPersonTasks(int personId);
 
     }
 }

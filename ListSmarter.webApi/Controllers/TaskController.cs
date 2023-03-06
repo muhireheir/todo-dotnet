@@ -21,27 +21,25 @@ namespace ListSmarter.webApi.Controllers
         }
 
         [HttpGet(Name="Get All tasks")]
-        public IActionResult GetAllTask(){
+        public ActionResult<IList<TaskDto>> GetAllTask(){
             var response =  new {
                 message="SUccess",
                 data = _taskService.GetTasks()
             };
-            return StatusCode(200,response);
+            return Ok(response);
         }
 
         [HttpPost]
-        public IActionResult CreateNewTask([FromBody] CreateTaskDto task){
+        public ActionResult<TaskDto> CreateNewTask([FromBody] CreateTaskDto task){
             try
             {
-            Random randomInt = new Random();
-            int id = randomInt.Next(1,99999);
-            TaskDto taskDto = new TaskDto {Id=id,Title=task.Title,Description=task.Title};
+            TaskDto taskDto = new TaskDto {Title=task.Title,Description=task.Title};
             var createdTask = _taskService.AddTask(taskDto,task.BucketId);
             var response =  new {
                 message="Created!",
                 data = createdTask
             };
-            return StatusCode(2001,response);
+            return StatusCode(201,response);
             }
             catch (Exception e)
             {
@@ -51,11 +49,11 @@ namespace ListSmarter.webApi.Controllers
 
 
         [HttpPut("/assignToPerson/{TaskId}/person/{PersonId}")]
-        public IActionResult AssignToPerson([FromRoute] int TaskId,[FromRoute] int PersonId){
+        public ActionResult AssignToPerson([FromRoute] int TaskId,[FromRoute] int PersonId){
            try
            {
              _taskService.AssignToPerson(TaskId,PersonId);
-            return StatusCode(200, new {message="Assiged"});
+            return Ok("Assiged to person");
            }
            catch (Exception e)
            {
@@ -64,11 +62,11 @@ namespace ListSmarter.webApi.Controllers
         }
 
         [HttpPut("/assignToBucket/{TaskId}/bucket/{BucketId}")]
-        public IActionResult AssignToBucket([FromRoute] int TaskId,[FromRoute] int BucketId){
+        public ActionResult AssignToBucket([FromRoute] int TaskId,[FromRoute] int BucketId){
            try
            {
              _taskService.AssignToBucket(TaskId,BucketId);
-            return StatusCode(200, new {message="Assiged"});
+            return Ok("Assigned to bucket");
            }
            catch (Exception e)
            {
@@ -77,11 +75,11 @@ namespace ListSmarter.webApi.Controllers
         }
 
         [HttpDelete("{TaskId}")]
-        public IActionResult DeleteTask([FromRoute] int TaskId){
+        public ActionResult DeleteTask([FromRoute] int TaskId){
            try
            {
              _taskService.DeleteTask(TaskId);
-            return StatusCode(200, new {message="Task Deleted"});
+            return Ok("Task Deleted");
            }
            catch (Exception e)
            {
@@ -89,12 +87,12 @@ namespace ListSmarter.webApi.Controllers
            }
         }
 
-        [HttpPut("/changeStataus/{TaskId}")]
-        public IActionResult UpdateStatus ([FromRoute] int TaskId,[FromBody] TaskStatusDto status){
+        [HttpPut("/changeStatus/{TaskId}")]
+        public ActionResult UpdateStatus ([FromRoute] int TaskId,[FromBody] TaskStatusDto status){
                try
                {
                 var result  =  _taskService.ChangeStatus(TaskId,status.Status);
-                 return StatusCode(200, new {message="Status Updated",data=result});
+                 return Ok(result);
                }
                catch (Exception e)
                {

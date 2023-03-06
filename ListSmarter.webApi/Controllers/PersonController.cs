@@ -17,24 +17,17 @@ namespace ListSmarter.webApi.Controllers
 
         }
         [HttpGet]
-        public IActionResult GetPeople()
+        public ActionResult<IList<PersonDto>> GetPeople()
         {
-            var response = new
-            {
-                message = "Ok",
-                data = _personService.getAllPeople()
-            };
+            var response = _personService.getAllPeople();
 
-            return new JsonResult(response);
-
+            return Ok(response);
         }
         [HttpPost]
         public ActionResult<PersonDto> CreatePerson([FromBody] CreatePersonDto data)
         {
-            Random random = new Random();
-            PersonDto person = new PersonDto { Id = random.Next(1, 9999), FirstName = data.FirstName, LastName = data.LastName };
+            PersonDto person = new PersonDto {FirstName = data.FirstName, LastName = data.LastName };
             var result = _personService.addPerson(person);
-
             var response = new
             {
                 message = "Created",
@@ -44,16 +37,12 @@ namespace ListSmarter.webApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetOnePerson([FromRoute] int id)
+        public ActionResult<PersonDto> GetOnePerson([FromRoute] int id)
         {
             var result = _personService.GetOne(id);
 
-            var response = new
-            {
-                message = "Ok",
-                data = result
-            };
-            return new JsonResult(response);
+           
+            return Ok(result);
         }
 
         [HttpPut("{id}")]
@@ -65,11 +54,11 @@ namespace ListSmarter.webApi.Controllers
                 message = "Updated",
                 data = result
             };
-            return new JsonResult(response);
+            return Ok(response);
         }
 
-        [HttpDelete("/Person/{id}")]
-        public IActionResult DeletePerson([FromRoute] int id)
+        [HttpDelete("{id}")]
+        public ActionResult DeletePerson([FromRoute] int id)
         {
             try
             {
@@ -78,7 +67,7 @@ namespace ListSmarter.webApi.Controllers
                 {
                     message = "Person Deleted"
                 };
-                return new JsonResult(response);
+                return Ok(response);
             }
             catch (Exception ex)
             {

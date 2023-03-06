@@ -16,19 +16,18 @@ namespace ListSmarter.Repositories
 
 
         private readonly IMapper _mapper;
-        private readonly IPersonRepository _personRepository;
-        private readonly IBucketRepository _bucketRepository;
+
         public TaskRepository(IMapper mapper,IPersonRepository personRepository,IBucketRepository bucketRepository){
             _mapper = mapper;
-            _personRepository=personRepository;
-            _bucketRepository = bucketRepository;
         }
 
 
         public TaskDto CreateTask(TaskDto task)
         {
             Models.Task newTask = _mapper.Map<Models.Task>(task);
+            newTask.Id = TemporaryDatabase.Tasks.Any() ? TemporaryDatabase.Tasks.Max(i => i.Id) + 1 : 1;
             TemporaryDatabase.Tasks.Add(newTask);
+            task.Id=newTask.Id;
             return task;
         }
 
@@ -36,18 +35,16 @@ namespace ListSmarter.Repositories
         {
            return  _mapper.Map<List<TaskDto>>(TemporaryDatabase.Tasks);
         }
-        public void AssignToPerson(int taskId, int personId)
+        public void AssignToPerson(int taskId, Person person)
         {
             Models.Task task = TemporaryDatabase.Tasks.First(task=>task.Id==taskId);
-            Person person =  _personRepository.GetPerson(personId);
             task.Assignee=person;
         }
 
 
-         public void AssignToBucket(int taskId, int bucketId)
+         public void AssignToBucket(int taskId, Bucket bucket)
         {
             Models.Task task = TemporaryDatabase.Tasks.First(task=>task.Id==taskId);
-           Bucket bucket= _bucketRepository.GetOne(bucketId);
             task.Bucket=bucket;
         }
 
@@ -73,5 +70,6 @@ namespace ListSmarter.Repositories
             TemporaryDatabase.Tasks.Remove(task);
         }
 
+        
     }
 }

@@ -57,8 +57,14 @@ namespace ListSmarter.Services
 
         }
 
-         public PersonDto GetOne(int id){
+
+        public Person GetPerson(int id){
             Person person = TemporaryDatabase.People.First(p=>p.Id==id);
+            return person;
+        }
+
+         public PersonDto GetOne(int id){
+            Person person = this.GetPerson(id);
             return _mapper.Map<PersonDto>(person);
         }
 

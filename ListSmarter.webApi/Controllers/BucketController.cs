@@ -23,8 +23,8 @@ namespace ListSmarter.webApi.Controllers
         {
             try
             {
-                IEnumerable<BucketDto> buckets = _bucketService.getAll();
-                return Ok(buckets);
+                List<BucketDto> buckets = _bucketService.getAll();
+                return Ok(buckets); 
             }
             catch (Exception ex)
             {
@@ -36,7 +36,7 @@ namespace ListSmarter.webApi.Controllers
             }
         }
         [HttpPost]
-        public ActionResult CreateBucket([FromBody] BucketDto bucket)
+        public ActionResult<BucketDto> CreateBucket([FromBody] BucketDto bucket)
         {
             try
             {
@@ -60,18 +60,15 @@ namespace ListSmarter.webApi.Controllers
             }
         }
 
-        [HttpGet("/Bucket/{id}")]
-        public ActionResult GetBucket([FromRoute] int id)
+        [HttpGet("{id}")]
+        public ActionResult<BucketDto> GetBucket([FromRoute] int id)
         {
             try
             {
 
-                var response = new
-                {
-                    message = "Success",
-                    data = _bucketService.getOne(id)
-                };
-                return StatusCode(200, response);
+                var response = _bucketService.getOne(id);
+                
+                return Ok(response);
             }
             catch (Exception ex)
             {
@@ -82,17 +79,13 @@ namespace ListSmarter.webApi.Controllers
             }
         }
 
-        [HttpDelete("/Bucket/{id}")]
-        public IActionResult DeleteBucket([FromRoute] int id)
+        [HttpDelete("{id}")]
+        public ActionResult DeleteBucket([FromRoute] int id)
         {
             try
             {
                 _bucketService.DeleteBucket(id);
-                var response = new
-                {
-                    message = "Success"
-                };
-                return StatusCode(200, response);
+                return Ok("Deleted !");
             }
             catch (Exception ex)
             {
@@ -104,17 +97,13 @@ namespace ListSmarter.webApi.Controllers
         }
 
 
-        [HttpPut("/Bucket/{id}")]
-        public IActionResult UpdateBucket([FromRoute] int id, [FromBody] BucketDto data)
+        [HttpPut("{id}")]
+        public ActionResult<BucketDto> UpdateBucket([FromRoute] int id, [FromBody] BucketDto data)
         {
             try
             {
                 BucketDto response = _bucketService.EditBucket(id, data);
-                return StatusCode(200, new
-                {
-                    message = "Success",
-                    data = response
-                });
+                return Ok(response);
             }
             catch (Exception ex)
             {
@@ -126,16 +115,15 @@ namespace ListSmarter.webApi.Controllers
         }
 
 
-        [HttpGet("/Bucket/{id}/Tasks")]
-        public IActionResult GetTasks([FromRoute] int id){
+        [HttpGet("{id}/Tasks")]
+        public ActionResult<IList<TaskDto>> GetTasks([FromRoute] int id){
             try
             {
-                IEnumerable<TaskDto> tasks = _taskService.GetBucketTasks(id);
-                return StatusCode(200,new {message="SUccess",data=tasks});
+                IList<TaskDto> tasks = _taskService.GetBucketTasks(id);
+                return Ok(tasks);
             }
             catch (Exception ex)
             {
-                
                  return StatusCode(500, new
                 {
                     message = ex.Message
