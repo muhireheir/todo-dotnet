@@ -50,7 +50,7 @@ namespace ListSmarter.webApi.Controllers
         }
 
 
-        [HttpPut("/assignToPerson/{TaskId}/{PersonId}")]
+        [HttpPut("/assignToPerson/{TaskId}/person/{PersonId}")]
         public IActionResult AssignToPerson([FromRoute] int TaskId,[FromRoute] int PersonId){
            try
            {
@@ -63,7 +63,7 @@ namespace ListSmarter.webApi.Controllers
            }
         }
 
-        [HttpPut("/assignToBucket/{TaskId}/{BucketId}")]
+        [HttpPut("/assignToBucket/{TaskId}/bucket/{BucketId}")]
         public IActionResult AssignToBucket([FromRoute] int TaskId,[FromRoute] int BucketId){
            try
            {
@@ -76,7 +76,7 @@ namespace ListSmarter.webApi.Controllers
            }
         }
 
-        [HttpDelete("/Task/{TaskId}")]
+        [HttpDelete("{TaskId}")]
         public IActionResult DeleteTask([FromRoute] int TaskId){
            try
            {
@@ -89,7 +89,7 @@ namespace ListSmarter.webApi.Controllers
            }
         }
 
-        [HttpPut("/Tasks/{TaskId}/changeStataus")]
+        [HttpPut("/changeStataus/{TaskId}")]
         public IActionResult UpdateStatus ([FromRoute] int TaskId,[FromBody] TaskStatusDto status){
                try
                {

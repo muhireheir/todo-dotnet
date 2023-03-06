@@ -40,10 +40,10 @@ namespace ListSmarter.webApi.Controllers
                 message = "Created",
                 data = result,
             };
-            return new JsonResult(response);
+            return Ok(result);
         }
 
-        [HttpGet("/Person/{id}")]
+        [HttpGet("{id}")]
         public IActionResult GetOnePerson([FromRoute] int id)
         {
             var result = _personService.GetOne(id);
@@ -56,7 +56,7 @@ namespace ListSmarter.webApi.Controllers
             return new JsonResult(response);
         }
 
-        [HttpPatch("/Person/{id}")]
+        [HttpPut("{id}")]
         public ActionResult<PersonDto> update([FromRoute] int id, [FromBody] PersonDto person)
         {
             var result = _personService.EditPerson(id, person);
