@@ -24,6 +24,7 @@ namespace ListSmarter.Repositories
         public BucketDto Create(BucketDto dto)
         {
             Bucket newBucket = _mapper.Map<Bucket>(dto);
+            newBucket.Id = TemporaryDatabase.Buckets.Any() ? TemporaryDatabase.Buckets.Max(i => i.Id) + 1 : 1;
             TemporaryDatabase.Buckets.Add(newBucket);
             return dto;
         }

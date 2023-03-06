@@ -17,7 +17,7 @@ namespace ListSmarter.Services
         private IBucketRepository _bucketRepository;
         private IPersonRepository _personRepository;
         private IMapper _mapper;
-        public TaskService(ITaskRepository taskRepository,IValidator<TaskDto> taskValidator,IBucketRepository bucketRepository,IPersonRepository personRepository,IMapper mapper){
+        public TaskService(ITaskRepository taskRepository,IValidator<TaskDto> taskValidator,IBucketService bucketRepository,IPersonService personRepository,IMapper mapper){
             _taskRepository=taskRepository;
             _taskValidator=taskValidator;
             _bucketRepository=bucketRepository;
@@ -58,7 +58,9 @@ namespace ListSmarter.Services
 
         public void AssignToBucket(int taskId, int bucketId)
         {
-            _taskRepository.AssignToBucket(taskId,bucketId);
+            //search for bucket
+            //pass bucket to repo.
+            _taskRepository.AssignToBucket(taskId,bucket);
         }
         public TaskDto ChangeStatus(int task,TaskEnum status){
     
