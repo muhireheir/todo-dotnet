@@ -21,7 +21,7 @@ namespace ListSmarter.db
         };
 
         public static List<Task> Tasks = new List<Task>{
-            new Task{Id=1,Title="Finish homework",Status=TaskEnum.Open},
+            new Task{Id=1,Title="Finish homework",Status=TaskEnum.Open,Bucket=Buckets[0],Assignee=People[0]},
             new Task{Id=2,Title="Do laundry",Status=TaskEnum.InProgress}
         };
         

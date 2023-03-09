@@ -27,7 +27,7 @@ namespace ListSmarter
         public void createNewTask(TaskDto task,int bucketId){
             _taskService.AddTask(task,bucketId);
         }
-
+        
         public void AssignToPerson(int task,int person){
             _taskService.AssignToPerson(task,person);
         }
@@ -36,9 +36,9 @@ namespace ListSmarter
             _taskService.AssignToBucket(task,bucket);
         }
 
-         public void ChangeStatus(int task,string status){
-            _taskService.ChangeStatus(task,status);
-         }
+        //  public void ChangeStatus(int task,string status){
+        //     _taskService.ChangeStatus(task,status);
+        //  }
 
     }
 }

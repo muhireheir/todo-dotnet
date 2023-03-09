@@ -14,41 +14,36 @@ namespace ListSmarter.Services
     {
         private readonly ITaskRepository _taskRepository;
         private readonly IValidator<TaskDto> _taskValidator;
-        private IBucketRepository _bucketRepository;
-        private IPersonRepository _personRepository;
+        private readonly IBucketService _bucketService;
+        private readonly IPersonService _personService;
         private IMapper _mapper;
-        public TaskService(ITaskRepository taskRepository,IValidator<TaskDto> taskValidator,IBucketRepository bucketRepository,IPersonRepository personRepository,IMapper mapper){
+        public TaskService(ITaskRepository taskRepository,IValidator<TaskDto> taskValidator,IBucketService bucketService,IPersonService personService,IMapper mapper){
             _taskRepository=taskRepository;
             _taskValidator=taskValidator;
-            _bucketRepository=bucketRepository;
-            _personRepository=personRepository;
             _mapper=mapper;
-
+            _bucketService=bucketService;
+            _personService=personService;
         }
 
-        public void AddTask(TaskDto task,int bucketId)
+        public TaskDto AddTask(TaskDto task, int bucketId)
         {
-
-            Bucket bucket = _bucketRepository.GetOne(bucketId);
-
-            if(bucket!=null){
-                TaskDto newTask = new TaskDto {Id=task.Id,
-                Title=task.Title,
-                Description=task.Description,
-                Status=TaskEnum.Open,
-                Bucket= _mapper.Map<BucketDto>(bucket)
+            try
+            {
+                Bucket bucket = _bucketService.getOne(bucketId);
+                TaskDto newTask = new TaskDto
+                {
+                    Id = task.Id,
+                    Title = task.Title,
+                    Description = task.Description,
+                    Status = TaskEnum.Open,
+                    Bucket = _mapper.Map<BucketDto>(bucket)
                 };
-
-            var results = _taskValidator.Validate(newTask);
-            if(results.IsValid){
-                _taskRepository.CreateTask(newTask);
-            }else{
-                Console.WriteLine(results);
+                return _taskRepository.CreateTask(newTask);
             }
-
-            }else{
-                Console.WriteLine("Invalid bucket Id");
-            }            
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public List<TaskDto> GetTasks()
@@ -57,17 +52,31 @@ namespace ListSmarter.Services
         }
         
         public void AssignToPerson(int taskId,int personId){
-            Person person =_personRepository.GetPerson(personId);
-            _taskRepository.AssignToPerson(taskId,personId);
+            Person person =_personService.GetPerson(personId);
+            _taskRepository.AssignToPerson(taskId,person);
         }
 
         public void AssignToBucket(int taskId, int bucketId)
         {
-            _taskRepository.AssignToBucket(taskId,bucketId);
+            Bucket bucket = _bucketService.getOne(bucketId);
+            _taskRepository.AssignToBucket(taskId,bucket);
         }
-        public void ChangeStatus(int task,string status){
-            TaskEnum value = (TaskEnum)Enum.Parse(typeof(TaskEnum),status);
-            _taskRepository.UpdateStatus(task,value);
+        public TaskDto ChangeStatus(int task,TaskEnum status){
+    
+            return _taskRepository.UpdateStatus(task,status);
+        }
+
+        public List<TaskDto> GetBucketTasks(int id){
+            return _taskRepository.GetBucketTasks(id);
+        }
+
+        public void DeleteTask(int taskId){
+            _taskRepository.DeleteTask(taskId);
+        }
+
+      public  List<Models.Task> GetPersonTasks(int personId){
+        return _taskRepository.GetPersonTasks(personId);
         }
     }
 }
+

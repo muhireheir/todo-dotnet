@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ListSmarter.Models;
 
 namespace ListSmarter.Services
 {
@@ -11,7 +12,10 @@ namespace ListSmarter.Services
 
         PersonDto addPerson(PersonDto person);
         void DeletePerson(int id);
-        void EditPerson(int id,PersonDto data);
+        PersonDto EditPerson(int id,PersonDto data);
+        
+        PersonDto GetOne(int id);
+        Person GetPerson(int id);
     }
 
 

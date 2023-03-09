@@ -7,18 +7,17 @@ using FluentValidation;
 using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using ListSmarter.Models;
+using ListSmarter.db;
 namespace ListSmarter.Services
 {
     public class PersonService : IPersonService
     {
         private readonly IPersonRepository _personRepository;
-        private readonly IValidator<PersonDto> _personValidator;
         private readonly ITaskRepository _taskRepository;
         private readonly IMapper _mapper;
 
-        public PersonService(IPersonRepository personRepository,IValidator<PersonDto> personValidator,ITaskRepository taskRepository,IMapper mapper){
+        public PersonService(IPersonRepository personRepository,IValidator<CreatePersonDto> personValidator,ITaskRepository taskRepository,IMapper mapper){
             _personRepository=personRepository;
-            _personValidator=personValidator;
             _taskRepository=taskRepository;
             _mapper=mapper;
         }
@@ -29,30 +28,46 @@ namespace ListSmarter.Services
         }
 
         public PersonDto addPerson(PersonDto person){
-            var validationResults = new List<ValidationResult>();
-            var x = _mapper.Map<Person>(person);
-            var isValid = Validator.TryValidateObject(x, new ValidationContext(x), validationResults, true);
-            if (!isValid)
-            {
-                throw new Exception("All fields are required");
-            }
             _personRepository.Create(person);
             return person;
         }
         public void DeletePerson(int id)
         {
-           List<Models.Task> userTasks = _taskRepository.GetPersonTasks(id);
+           try
+           {
+            _personRepository.GetPerson(id);
+            
+            List<Models.Task> userTasks = _taskRepository.GetPersonTasks(id);
            if(userTasks.Count > 0){
             throw new Exception("Can not delete a person with a task");
            }else{
             _personRepository.Delete(id);
            }
+           }
+           catch (System.Exception e)
+           {
+            throw  new Exception(e.Message);
+           }
             
         }
 
-        public void EditPerson(int id, PersonDto data)
+        public PersonDto EditPerson(int id, PersonDto data)
         {
-             _personRepository.Update(id,data);
+             return _personRepository.Update(id,data);
+
         }
+
+
+        public Person GetPerson(int id){
+            Person person = TemporaryDatabase.People.First(p=>p.Id==id);
+            return person;
+        }
+
+         public PersonDto GetOne(int id){
+            Person person = this.GetPerson(id);
+            return _mapper.Map<PersonDto>(person);
+        }
+
+       
     }
 }

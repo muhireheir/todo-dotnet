@@ -11,11 +11,12 @@ namespace ListSmarter.Repositories
     {
         List<TaskDto>GetAll();
         TaskDto CreateTask(TaskDto task);
-        void AssignToPerson(int taskId,int person);
+        void AssignToPerson(int taskId,Person person);
         List<Models.Task>GetPersonTasks(int id);
-        List<Models.Task>GetBucketTasks(int id);
-        void AssignToBucket(int taskId, int bucket);
+        List<TaskDto>GetBucketTasks(int id);
+        void AssignToBucket(int taskId, Bucket bucket);
         TaskDto UpdateStatus(int task,TaskEnum status);
+        void DeleteTask(int TaskId);
     }
 }
 
